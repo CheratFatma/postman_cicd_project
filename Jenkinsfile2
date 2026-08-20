@@ -8,11 +8,15 @@ pipeline{
             agent{
                 docker {
                     image 'postman/newman:latest' 
-                    args '-u root --entrypoint='
+                    args '--entrypoint='
                 }
             }
             stages{
-                
+                stage('installer allure'){
+                    steps{
+                        sh 'npm install -g newman-reporter-allure'
+                    }
+                }
 
                 stage('clean allure results'){
                     
