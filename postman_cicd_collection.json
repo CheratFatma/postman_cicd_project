@@ -344,13 +344,20 @@
           "listen": "test",
           "script": {
             "exec": [
-              "pm.test(\"Status code is 201\", function () {\r",
-              "    pm.response.to.have.status(201);\r",
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
               "});"
             ],
             "type": "text/javascript",
             "packages": {},
             "requests": {}
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [],
+            "type": "text/javascript"
           }
         }
       ],
@@ -377,7 +384,7 @@
           }
         },
         "url": {
-          "raw": "{{url}}/api/v1/posts/12/like",
+          "raw": "{{url}}/api/v1/posts/{{even_id}}/like",
           "host": [
             "{{url}}"
           ],
@@ -385,7 +392,7 @@
             "api",
             "v1",
             "posts",
-            "12",
+            "{{even_id}}",
             "like"
           ]
         }
@@ -422,7 +429,7 @@
           "bearer": [
             {
               "key": "token",
-              "value": "{{token2}}",
+              "value": "{{token1}}",
               "type": "string"
             }
           ]
