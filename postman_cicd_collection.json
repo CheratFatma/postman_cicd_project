@@ -16,11 +16,21 @@
             "exec": [
               "pm.test(\"Status code is 200\", function () {\r",
               "    pm.response.to.have.status(200);\r",
-              "});"
+              "});\r",
+              "\r",
+              "pm.collectionVariables.set(\"token1\",pm.response.json().token)\r",
+              ""
             ],
             "type": "text/javascript",
             "packages": {},
             "requests": {}
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [],
+            "type": "text/javascript"
           }
         }
       ],
@@ -39,7 +49,7 @@
         "header": [],
         "body": {
           "mode": "raw",
-          "raw": "{\r\n  \"email\": \"lamia@example.com\",\r\n  \"password\": \"motdepasse123\",\r\n  \"fcm_token\": \"fcm_xxx\"\r\n}",
+          "raw": "{\r\n  \"nomComplet\": \"Jean Dupont\",\r\n  \"email\":  \"{{$randomEmail}}\",\r\n  \"password\": \"motdepasse123\",\r\n  \"telephone\": \"0612345678\",\r\n  \"fcm_token\": \"fcm_xxx\"\r\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -47,22 +57,15 @@
           }
         },
         "url": {
-          "raw": "{{url}}/api/register/client",
+          "raw": "{{url}}/api/v1/register/client",
           "host": [
             "{{url}}"
           ],
           "path": [
             "api",
+            "v1",
             "register",
             "client"
-          ],
-          "query": [
-            {
-              "key": "",
-              "value": null,
-              "type": "text",
-              "disabled": true
-            }
           ]
         }
       },
@@ -85,10 +88,8 @@
               "",
               "    // Choisir 1er event",
               "    let e1 = liste[Math.floor(Math.random() * liste.length)];",
-              "    let e2 = liste[Math.floor(Math.random() * liste.length)];",
               "",
               "    pm.collectionVariables.set(\"id1\",e1.id)",
-              "    pm.collectionVariables.set(\"id2\",e2.id)",
               "",
               "});",
               "",
@@ -102,8 +103,12 @@
         {
           "listen": "prerequest",
           "script": {
-            "exec": [],
-            "type": "text/javascript"
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
           }
         }
       ],
@@ -120,16 +125,11 @@
           }
         },
         "url": {
-          "raw": "https://preprod.thrundrz.fr/backendpublic/public/api/v1/evenementExplorer",
-          "protocol": "https",
+          "raw": "{{url}}/api/v1/evenementExplorer",
           "host": [
-            "preprod",
-            "thrundrz",
-            "fr"
+            "{{url}}"
           ],
           "path": [
-            "backendpublic",
-            "public",
             "api",
             "v1",
             "evenementExplorer"
@@ -149,12 +149,20 @@
               "    pm.response.to.have.status(201);\r",
               "});\r",
               "\r",
-              "pm.collectionVariables.set(\"even_id\",pm.response.json().data.id)\r",
+              "pm.collectionVariables.set(\"even_id\",pm.response.json().data.even_id)\r",
+              "\r",
               ""
             ],
             "type": "text/javascript",
             "packages": {},
             "requests": {}
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [],
+            "type": "text/javascript"
           }
         }
       ],
@@ -164,7 +172,7 @@
           "bearer": [
             {
               "key": "token",
-              "value": "{{json_web_token_0d8l}}",
+              "value": "{{token1}}",
               "type": "string"
             }
           ]
@@ -204,11 +212,21 @@
             "exec": [
               "pm.test(\"Status code is 200\", function () {\r",
               "    pm.response.to.have.status(200);\r",
-              "});"
+              "});\r",
+              "\r",
+              "pm.collectionVariables.set(\"token2\",pm.response.json().token)\r",
+              ""
             ],
             "type": "text/javascript",
             "packages": {},
             "requests": {}
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [],
+            "type": "text/javascript"
           }
         }
       ],
@@ -227,7 +245,7 @@
         "header": [],
         "body": {
           "mode": "raw",
-          "raw": "{\r\n  \"email\": \"lamia2@example.com\",\r\n  \"password\": \"motdepasse123\",\r\n  \"fcm_token\": \"fcm_xxx\"\r\n}",
+          "raw": "{\r\n  \"nomComplet\": \"Jean Dupont\",\r\n  \"email\": \"{{$randomEmail}}\",\r\n  \"password\": \"motdepasse123\",\r\n  \"telephone\": \"0612345678\",\r\n  \"fcm_token\": \"fcm_xxx\"\r\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -235,12 +253,13 @@
           }
         },
         "url": {
-          "raw": "{{url}}/api/register/client",
+          "raw": "{{url}}/api/v1/register/client",
           "host": [
             "{{url}}"
           ],
           "path": [
             "api",
+            "v1",
             "register",
             "client"
           ],
@@ -258,41 +277,274 @@
     },
     {
       "name": "Ajouter un commentaire",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 201\", function () {\r",
+              "    pm.response.to.have.status(201);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [],
+            "type": "text/javascript"
+          }
+        }
+      ],
       "request": {
-        "method": "GET",
-        "header": []
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token2}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"contenu\": \"Super, je viens aussi !\",\r\n  \"parent_id\": null\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{url}}/api/v1/posts/{{even_id}}/comments",
+          "host": [
+            "{{url}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "posts",
+            "{{even_id}}",
+            "comments"
+          ]
+        }
       },
       "response": []
     },
     {
       "name": "liker une annonce",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 201\", function () {\r",
+              "    pm.response.to.have.status(201);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
       "request": {
-        "method": "GET",
-        "header": []
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token2}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{url}}/api/v1/posts/12/like",
+          "host": [
+            "{{url}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "posts",
+            "12",
+            "like"
+          ]
+        }
       },
       "response": []
     },
     {
       "name": "verifier notification",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [],
+            "type": "text/javascript"
+          }
+        }
+      ],
       "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token2}}",
+              "type": "string"
+            }
+          ]
+        },
         "method": "GET",
-        "header": []
+        "header": [],
+        "url": {
+          "raw": "{{url}}/api/v1/notifications/non-lues",
+          "host": [
+            "{{url}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "notifications",
+            "non-lues"
+          ]
+        }
       },
       "response": []
     },
     {
       "name": "delete compte",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [],
+            "type": "text/javascript"
+          }
+        }
+      ],
       "request": {
-        "method": "GET",
-        "header": []
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token1}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{url}}/api/v1/app/deletecompte",
+          "host": [
+            "{{url}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "app",
+            "deletecompte"
+          ]
+        }
       },
       "response": []
     },
     {
       "name": "delete compte 2",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 201\", function () {\r",
+              "    pm.response.to.have.status(201);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [],
+            "type": "text/javascript"
+          }
+        }
+      ],
       "request": {
-        "method": "GET",
-        "header": []
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token2}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{url}}/api/v1/app/deletecompte",
+          "host": [
+            "{{url}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "app",
+            "deletecompte"
+          ]
+        }
       },
       "response": []
     }
