@@ -8,7 +8,7 @@ pipeline{
             agent{
                 docker {
                     image 'postman/newman:latest' 
-                    args '--entrypoint='
+                    args '-u root --entrypoint='
                 }
             }
             stages{
